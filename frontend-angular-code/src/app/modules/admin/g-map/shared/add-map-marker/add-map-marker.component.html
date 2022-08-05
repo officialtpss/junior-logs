@@ -1,0 +1,38 @@
+<ng-container>
+    <div class="flex">
+        <div class="col-span-6">
+            <h2 mat-dialog-title class="p-3 ml-2">{{ heading }}</h2>
+        </div>
+    </div>
+
+    <mat-dialog-content class="mat-typography">
+        <form [formGroup]="marker" class="gap-3 grid grid-cols-1">
+            <mat-form-field appearance="fill" class="input grid">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title" #title placeholder="title" />
+                <mat-error *ngIf="marker?.invalid">
+                    Title is required
+                </mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill" class="input grid">
+                <mat-label>Latitude</mat-label>
+                <input matInput type="number" formControlName="lat" #lat readonly />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="input grid">
+                <mat-label>Longitude</mat-label>
+                <input matInput type="number" formControlName="lng" #lng readonly  />
+            </mat-form-field>
+
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="mr-0 mx-auto ">
+        <button mat-button cdkFocusInitial (click)="submit()">
+            Save
+        </button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</ng-container>

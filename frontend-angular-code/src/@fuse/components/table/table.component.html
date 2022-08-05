@@ -1,0 +1,21 @@
+<mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+  <!-- table dynamic columns -->
+  <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="!column.sort"><span>{{ column.header }}</span>
+    </mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ row[column.columnDef] }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <span *ngFor="let action of userActions" class="cursor-pointer">
+        <i class="large material-icons" (click)="onActionClick({ actionName: action.type, row })"
+          [class.hidden]="action.hide">{{action.type}}</i>
+      </span>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<!-- table pagination -->
+<mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>

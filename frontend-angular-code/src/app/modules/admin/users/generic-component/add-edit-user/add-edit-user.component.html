@@ -1,0 +1,100 @@
+<ng-container *ngIf="user">
+  <div class="flex">
+    <div class="col-span-6">
+      <h2 mat-dialog-title class="p-3 ml-2">{{ title }}</h2>
+    </div>
+  </div>
+
+  <mat-dialog-content class="mat-typography">
+    <!-- Alert -->
+    <fuse-alert
+      class="mt-1 mb-2"
+      *ngIf="showAlert"
+      [appearance]="'outline'"
+      [showIcon]="false"
+      [type]="alert.type"
+      [@shake]="alert.type === 'error'"
+    >
+      {{ alert.message }}
+    </fuse-alert>
+    <form [formGroup]="user" class="gap-3 grid grid-cols-2 custom_width">
+      <mat-form-field appearance="fill" class="input grid">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" #sendName />
+        <mat-error *ngIf="user?.invalid"> First Name is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input grid">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+        <mat-error *ngIf="user?.invalid"> Last Name is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input grid" *ngIf="!userDetail">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          formControlName="email"
+          [disabled]="data.email?.length"
+        />
+        <mat-error *ngIf="user?.invalid"> Email is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-full" class="input grid" *ngIf="!userDetail">
+        <mat-label>Password</mat-label>
+        <input
+          id="password"
+          matInput
+          type="password"
+          formControlName="password"
+          #passwordField
+        />
+        <button
+          mat-icon-button
+          type="button"
+          (click)="
+            passwordField.type === 'password'
+              ? (passwordField.type = 'text')
+              : (passwordField.type = 'password')
+          "
+          matSuffix
+        >
+          <mat-icon
+            class="icon-size-5"
+            *ngIf="passwordField.type === 'password'"
+            [svgIcon]="'heroicons_solid:eye'"
+          >
+          </mat-icon>
+          <mat-icon
+            class="icon-size-5"
+            *ngIf="passwordField.type === 'text'"
+            [svgIcon]="'heroicons_solid:eye-off'"
+          >
+          </mat-icon>
+        </button>
+        <mat-error> Password is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input grid">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of USER_ROLES" [value]="role.value">{{
+            role.name
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="user?.invalid"> Role is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input grid">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="address" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="mr-0 mx-auto">
+    <button mat-button cdkFocusInitial (click)="submit()">Save</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</ng-container>
